@@ -1,4 +1,4 @@
-Secure CI/CD AppSec Pipeline
+**Secure CI/CD AppSec Pipeline**
 
 Overview
 
