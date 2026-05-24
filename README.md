@@ -1,82 +1,57 @@
 **Secure CI/CD AppSec Pipeline**
 
-Overview
+# Secure CI/CD AppSec Pipeline
 
-This project demonstrates an automated AppSec/DevSecOps pipeline built using OWASP Juice Shop and GitHub Actions.
+## Overview
+This project demonstrates a secure CI/CD pipeline built around OWASP Juice Shop using GitHub Actions and AppSec tooling.
 
-The goal was to integrate multiple security tools into a CI/CD workflow and automate security testing against a deployed application.
+The goal of this project is to simulate how modern DevSecOps and Application Security pipelines work in real-world environments.
 
-⸻
+## Features
 
-Technologies Used
+- GitHub Actions CI/CD Pipeline
+- OWASP ZAP DAST Scanning
+- Semgrep SAST Scanning
+- Gitleaks Secret Detection
+- Trivy Dependency Scanning
+- Render Deployment
+- Automated Security Testing
 
-* GitHub Actions
-* OWASP Juice Shop
-* Semgrep
-* Gitleaks
-* Trivy
-* OWASP ZAP
-* Docker
-* WSL Ubuntu
-* Node.js
-* Render
+## Tech Stack
 
-⸻
+- OWASP Juice Shop
+- GitHub Actions
+- Semgrep
+- OWASP ZAP
+- Gitleaks
+- Trivy
+- Docker
+- Render
 
-Security Pipeline
+## Live Application
 
-The pipeline performs:
+https://juice-shop-secure-ci-cd-appsec.onrender.com/#/
 
-* Static Application Security Testing (SAST)
-* Secret Scanning
-* Dependency Vulnerability Scanning
-* Dynamic Application Security Testing (DAST)
-* Automated CI/CD workflow execution
+## Security Tools Used
 
-⸻
+### Semgrep
+Static Application Security Testing (SAST)
 
-Security Tools
+### OWASP ZAP
+Dynamic Application Security Testing (DAST)
 
-Semgrep
+### Gitleaks
+Secret and credential detection
 
-Used for SAST scanning and insecure code pattern detection.
+### Trivy
+Dependency and vulnerability scanning
 
-Gitleaks
+## Screenshots
 
-Used for secret scanning and credential detection.
+Add screenshots here later.
 
-Trivy
+## Author
 
-Used for dependency vulnerability scanning.
+Shravasti Borkar
+Application Security Engineer / Pentester
 
-OWASP ZAP
-
-Used for automated DAST scanning against the deployed Juice Shop application.
-
-⸻
-
-Deployment
-
-The application was deployed publicly using Render.
-
-⸻
-
-Key Learning Outcomes
-
-* GitHub Actions workflow automation
-* CI/CD pipeline design
-* AppSec tooling integration
-* DAST vs SAST concepts
-* Cloud-hosted application scanning
-* Debugging CI/CD pipelines
-* Security automation practices
-
-⸻
-
-Future Improvements
-
-* AWS deployment
-* Kubernetes integration
-* Container security hardening
-* Security gates for HIGH/CRITICAL findings
-* SARIF reporting integration
