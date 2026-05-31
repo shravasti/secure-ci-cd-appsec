@@ -1,55 +1,360 @@
-**Secure CI/CD AppSec Pipeline**
-
-# Secure CI/CD AppSec Pipeline
+**Secure CI/CD DevSecOps Pipeline for OWASP Juice Shop**
 
 ## Overview
-This project demonstrates a secure CI/CD pipeline built around OWASP Juice Shop using GitHub Actions and AppSec tooling.
+This project demonstrates the design and implementation of a secure DevSecOps pipeline using OWASP Juice Shop, a deliberately vulnerable web application, as the target workload. The objective was to integrate security throughout the software development lifecycle by automating code analysis, secret detection, vulnerability assessment, container security, Kubernetes security, and runtime threat monitoring.
 
-The goal of this project is to simulate how modern DevSecOps and Application Security pipelines work in real-world environments.
+The project implements a complete CI/CD workflow using GitHub Actions and incorporates multiple security tools to identify and mitigate risks at different stages of the pipeline. Static Application Security Testing (SAST) is performed using Semgrep, secret detection is handled by Gitleaks, container and dependency vulnerabilities are analyzed using Trivy, and Dynamic Application Security Testing (DAST) is conducted using OWASP ZAP. These controls help identify security issues before and after deployment.
 
-## Features
+To demonstrate modern cloud-native deployment practices, the application was containerized using Docker and deployed both through Render and a local Kubernetes environment using Minikube. Additional Kubernetes security controls were implemented, including namespace isolation, Network Policies, Role-Based Access Control (RBAC), Kubernetes Secrets, and CIS Benchmark assessments using kube-bench.
 
-- GitHub Actions CI/CD Pipeline
-- OWASP ZAP DAST Scanning
-- Semgrep SAST Scanning
-- Gitleaks Secret Detection
-- Trivy Dependency Scanning
-- Render Deployment
-- Automated Security Testing
+The project also includes runtime security monitoring using Falco, which detects suspicious activity within running containers. During testing, Falco successfully generated alerts for container shell execution events, demonstrating real-time threat detection capabilities. This project showcases a practical end-to-end DevSecOps implementation that combines secure development, automated security testing, container security, Kubernetes hardening, and runtime monitoring in a single environment.
 
-## Tech Stack
+## Architecture Diagram
+![alt text](<WhatsApp Image 2026-05-31 at 3.29.14 PM.jpeg>)
 
-- OWASP Juice Shop
-- GitHub Actions
-- Semgrep
-- OWASP ZAP
-- Gitleaks
-- Trivy
-- Docker
-- Render
+## Technologies Used
+Application
 
-## Live Application
+* OWASP Juice Shop
+* Node.js
 
-https://juice-shop-secure-ci-cd-appsec.onrender.com/#/
+Version Control & CI/CD
 
-## Security Tools Used
+* Git
+* GitHub
+* GitHub Actions
 
-### Semgrep
 Static Application Security Testing (SAST)
 
-### OWASP ZAP
+* Semgrep
+
+Secrets Detection
+
+* Gitleaks
+
+Container & Dependency Security
+
+* Trivy
+
 Dynamic Application Security Testing (DAST)
 
-### Gitleaks
-Secret and credential detection
+* OWASP ZAP
 
-### Trivy
-Dependency and vulnerability scanning
+Containerization
+
+* Docker
+* Docker Desktop
+
+Container Registry
+
+* Docker Image Management
+
+Kubernetes & Orchestration
+
+* Kubernetes
+* Minikube
+* kubectl
+
+Kubernetes Security
+
+* kube-bench
+* Network Policies
+* RBAC (Role-Based Access Control)
+* Kubernetes Secrets
+* Namespace Isolation
+
+Runtime Security Monitoring
+
+* Falco
+
+Deployment Platform
+
+* Render
+
+Development Environment
+
+* Visual Studio Code
+* Ubuntu (WSL2)
+
+Configuration & Infrastructure
+
+* YAML
+* Kubernetes Manifests
+* Dockerfile
+
+## Security Tools Implemented
+
+Semgrep (Static Application Security Testing - SAST)
+
+Semgrep was integrated into the CI/CD pipeline to perform Static Application Security Testing (SAST). It analyzes source code without executing the application and helps identify insecure coding patterns, potential vulnerabilities, and security misconfigurations early in the development lifecycle. This allows security issues to be detected before deployment.
+
+Purpose:
+
+* Detect insecure coding practices
+* Identify common vulnerability patterns
+* Shift security testing left in the SDLC
+
+⸻
+
+Gitleaks (Secrets Detection)
+
+Gitleaks was used to scan the repository for accidentally exposed secrets such as API keys, passwords, tokens, and credentials. Secret scanning was integrated into the CI/CD pipeline to prevent sensitive information from being committed to source control.
+
+Purpose:
+
+* Detect exposed secrets
+* Prevent credential leakage
+* Improve repository security
+
+⸻
+
+Trivy (Container & Dependency Security)
+
+Trivy was used to scan application dependencies and Docker container images for known vulnerabilities. The tool identifies CVEs (Common Vulnerabilities and Exposures) in operating system packages and application libraries, enabling remediation before deployment.
+
+Purpose:
+
+* Detect vulnerable dependencies
+* Scan Docker images
+* Identify CVEs and security risks
+
+⸻
+
+OWASP ZAP (Dynamic Application Security Testing - DAST)
+
+OWASP ZAP was integrated to perform Dynamic Application Security Testing (DAST) against the running application. Unlike static analysis, ZAP tests the deployed application and identifies vulnerabilities such as security misconfigurations, missing security headers, and other runtime issues.
+
+Purpose:
+
+* Assess application security during runtime
+* Identify web application vulnerabilities
+* Validate deployed application security
+
+⸻
+
+kube-bench (Kubernetes Security Benchmarking)
+
+kube-bench was used to assess the Kubernetes environment against the CIS Kubernetes Benchmark. The tool evaluates cluster configurations and provides recommendations for hardening Kubernetes components and improving security posture.
+
+Purpose:
+
+* Perform Kubernetes security assessments
+* Validate CIS Benchmark compliance
+* Identify cluster hardening opportunities
+
+Key Findings Implemented:
+
+* Namespace isolation
+* Network Policies
+* RBAC controls
+* Security hardening recommendations
+
+⸻
+
+Falco (Runtime Security Monitoring)
+
+Falco was deployed to provide runtime security monitoring within the Kubernetes environment. It continuously monitors system calls and container activity to detect suspicious behavior. During testing, Falco successfully detected shell execution inside a running container, demonstrating its ability to identify potentially malicious activity in real time.
+
+Purpose:
+
+* Monitor runtime container activity
+* Detect suspicious behavior and threats
+* Provide real-time security alerts
+
+Demonstrated Detection:
+
+* Shell spawned inside a container
+* Runtime activity monitoring
+* Real-time alert generation
+
+## Containerization
+The OWASP Juice Shop application was containerized using Docker to ensure consistent deployment across different environments. Containerization packages the application along with its dependencies, configuration, and runtime requirements into a portable image that can be deployed reliably on any system supporting Docker.
+
+A custom Docker image was built using a Dockerfile and tested locally using Docker Desktop before being integrated into the CI/CD pipeline and Kubernetes environment. The containerized application was also scanned using Trivy to identify vulnerabilities within both application dependencies and the container image itself.
+
+Implementation
+
+Dockerfile
+
+A Dockerfile was created to define the application build process, including:
+
+* Base image selection
+* Application dependency installation
+* Application startup configuration
+* Port exposure for application access
+
+Docker Image Build
+
+The application image was built locally using Docker:
+
+docker build -t juice-shop-appsec:latest
+
+Container Execution
+
+The containerized application was tested locally before deployment:
+
+docker run -d -p 3000:3000 juice-shop-appsec:latest
+
+Security Validation
+
+Container security was validated using Trivy vulnerability scanning to identify:
+
+* Vulnerable operating system packages
+* Outdated libraries and dependencies
+* Known CVEs (Common Vulnerabilities and Exposures)
+
+Benefits of Containerization
+
+* Consistent deployment across environments
+* Improved application portability
+* Simplified dependency management
+* Faster deployment and rollback capabilities
+* Integration with Kubernetes orchestration
+* Enhanced security through container scanning and monitoring
+
+Containerization served as the foundation for subsequent Kubernetes deployment, security hardening, and runtime monitoring activities performed in this project.
+
+## Kubernetes Deployment
+
+The containerized OWASP Juice Shop application was deployed to a local Kubernetes cluster using Minikube. Kubernetes was used to automate container orchestration, service exposure, workload management, and security control implementation. This deployment provided hands-on experience with cloud-native application management and Kubernetes security best practices.
+
+Kubernetes Components Implemented
+
+Deployment
+
+A Kubernetes Deployment resource was created to manage the application lifecycle. The deployment ensures that the desired number of application replicas are running and automatically recreates failed containers when necessary.
+
+Key Features:
+
+* Automated pod management
+* Self-healing capabilities
+* Replica management
+* Rolling updates and restarts
+
+Service
+
+A Kubernetes Service was configured to expose the application and enable network access to the deployed pods. The service provides a stable endpoint for communication regardless of pod restarts or recreation.
+
+Benefits:
+
+* Stable networking
+* Service discovery
+* Traffic routing to application pods
+
+Namespace Isolation
+
+A dedicated namespace was created for the application to provide logical separation from system workloads and improve security management.
+
+Benefits:
+
+* Resource isolation
+* Improved organization
+* Simplified security policy enforcement
+
+Network Policies
+
+Network Policies were implemented to control network communication between workloads within the cluster. This follows the principle of least privilege by restricting unnecessary traffic between Kubernetes resources.
+
+Benefits:
+
+* Reduced attack surface
+* Improved network segmentation
+* Enhanced cluster security
+
+Role-Based Access Control (RBAC)
+
+RBAC was implemented using ServiceAccounts, Roles, and RoleBindings to enforce least-privilege access controls within the Kubernetes environment.
+
+Implemented Components:
+
+* ServiceAccount
+* Role
+* RoleBinding
+
+Benefits:
+
+* Fine-grained access control
+* Reduced privilege exposure
+* Improved security governance
+
+Kubernetes Secrets
+
+Sensitive configuration values were stored using Kubernetes Secrets and securely injected into application workloads. This prevents sensitive information from being hardcoded within source code or deployment manifests.
+
+Benefits:
+
+* Secure configuration management
+* Reduced credential exposure
+* Separation of secrets from application code
+
+Security Assessment
+
+The Kubernetes environment was evaluated using kube-bench, which performs CIS Kubernetes Benchmark assessments. The findings were used to identify security hardening opportunities and implement improvements such as namespace isolation, network policies, RBAC, and secrets management.
+
+Runtime Security Monitoring
+
+Falco was deployed within the Kubernetes cluster to provide runtime threat detection and monitoring. During testing, Falco successfully detected shell execution inside a running container, demonstrating the ability to identify potentially suspicious runtime activity in real time.
+
+Outcomes
+
+Through this deployment, the project demonstrates container orchestration, Kubernetes security hardening, workload isolation, access control implementation, secure secret management, and runtime security monitoring within a cloud-native environment.
+
+### Secrets Management
+Managing sensitive information securely is a critical component of modern DevSecOps practices. Hardcoding credentials, API keys, passwords, or tokens within source code can lead to accidental exposure through source control systems, logs, or deployment artifacts.
+
+In this project, Kubernetes Secrets were used to securely store sensitive configuration values and inject them into application workloads at runtime. This approach separates secrets from application code and deployment manifests, reducing the risk of credential leakage.
+
+Implementation
+
+A Kubernetes Secret was created to store sensitive application data:
+
+kubectl create secret generic app-secret \
+  --from-literal=API_KEY=test123 \
+  -n juice-shop
+
+The secret was then referenced within the Kubernetes Deployment manifest and injected into the application container using environment variables.
+
+Secret Injection
+
+env:
+  - name: API_KEY
+    valueFrom:
+      secretKeyRef:
+        name: app-secret
+        key: API_KEY
+
+This allowed the application to access sensitive configuration values without embedding them directly into source code or container images.
+
+Security Benefits
+
+* Separation of secrets from application code
+* Reduced risk of credential exposure
+* Improved configuration management
+* Simplified secret rotation and updates
+* Alignment with Kubernetes security best practices
+
+Future Enhancements
+
+While Kubernetes Secrets were used in this project, production environments typically integrate dedicated secret management solutions such as:
+
+* AWS Secrets Manager
+* HashiCorp Vault
+* Azure Key Vault
+* Google Secret Manager
+
+These solutions provide additional capabilities including encryption, secret rotation, auditing, and centralized secret management.
+
+Key Learning Outcome
+
+This implementation demonstrated how sensitive configuration values can be securely managed and consumed by containerized applications without exposing credentials in source code repositories or deployment artifacts.
+
+## Security Findings
 
 ## Screenshots
 
-Add screenshots here later.
+## Lessons Learned
 
+## Future Enhancements
 ## Author
 
 Shravasti Borkar

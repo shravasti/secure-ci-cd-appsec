@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: juice-shop-deployment
+  namespace: juice-shop
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: juice-shop
+
+  template:
+    metadata:
+      labels:
+        app: juice-shop
+
+    spec:
+      containers:
+        - name: juice-shop
+          image: juice-shop-appsec:latest
+
+          env: 
+            - name: API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: app-secret
+                  key: API_KEY
+          imagePullPolicy: Never
+
+          #securityContext:
+          #  runAsNonRoot: false
+          #  allowPrivilegeEscalation: false
+
+          ports:
+            - containerPort: 3000
