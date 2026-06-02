@@ -349,7 +349,150 @@ Key Learning Outcome
 This implementation demonstrated how sensitive configuration values can be securely managed and consumed by containerized applications without exposing credentials in source code repositories or deployment artifacts.
 
 ## Security Findings
+This project incorporated multiple security assessment tools across the software development lifecycle to identify vulnerabilities, security misconfigurations, exposed secrets, container risks, Kubernetes hardening opportunities, and runtime threats. The findings below summarize the results of the implemented security controls and the remediation measures applied during the project.
 
+⸻
+
+Static Application Security Testing (SAST) – Semgrep
+
+Semgrep was integrated into the CI/CD pipeline to perform automated source code analysis. The tool was used to identify insecure coding patterns, potential vulnerabilities, and security misconfigurations before deployment.
+
+Key Outcomes
+
+* Automated security scanning during code changes
+* Early identification of potential security weaknesses
+* Integration of security testing into the development workflow
+
+<img width="959" height="478" alt="46" src="https://github.com/user-attachments/assets/bc2c4964-99af-49bd-8882-4b88bde4dc65" />
+
+
+⸻
+
+Secrets Detection – Gitleaks
+
+Gitleaks was used to scan the repository for accidentally exposed secrets such as API keys, tokens, credentials, and sensitive configuration values.
+
+Key Outcomes
+
+* Repository scanned for exposed secrets
+* Validation that sensitive information was not committed to source control
+* Improved repository security posture
+
+Screenshot
+
+⸻
+
+Container Vulnerability Assessment – Trivy
+
+Trivy was used to assess application dependencies and Docker container images for known vulnerabilities. The scan identified vulnerabilities across operating system packages and application libraries.
+
+Key Findings
+
+* Total Vulnerabilities Detected: 2592
+* Critical Vulnerabilities: 25
+* High Severity Vulnerabilities: 268
+* Medium Severity Vulnerabilities: 1213
+* Low Severity Vulnerabilities: 1069
+
+Security Impact
+
+The assessment provided visibility into dependency and container image risks, enabling prioritization of remediation efforts and demonstrating the importance of vulnerability management within containerized environments.
+
+Screenshot
+
+⸻
+
+Dynamic Application Security Testing (DAST) – OWASP ZAP
+
+OWASP ZAP was used to evaluate the running application from an attacker’s perspective. Dynamic testing helped identify potential security weaknesses that may not be visible through static analysis alone.
+
+Key Outcomes
+
+* Runtime application security assessment
+* Validation of deployed application security controls
+* Identification of potential web application security issues
+
+Screenshot
+
+⸻
+
+Kubernetes Security Assessment – kube-bench
+
+kube-bench was used to evaluate the Kubernetes environment against CIS Kubernetes Benchmark recommendations. The assessment identified several hardening opportunities and security best practices.
+
+Key Findings
+
+* Recommendations for namespace isolation
+* Recommendations for network segmentation
+* Recommendations for RBAC implementation
+* Recommendations for secure secrets management
+* Recommendations for workload hardening
+
+Remediation Actions Implemented
+
+* Created a dedicated application namespace
+* Implemented Kubernetes Network Policies
+* Configured RBAC using ServiceAccounts, Roles, and RoleBindings
+* Implemented Kubernetes Secrets for secure configuration management
+* Added runtime security monitoring using Falco
+
+Security Impact
+
+The assessment helped improve the security posture of the Kubernetes environment through the implementation of multiple defense-in-depth controls.
+
+Screenshot
+
+⸻
+
+Runtime Threat Detection – Falco
+
+Falco was deployed within the Kubernetes cluster to provide runtime security monitoring. During testing, Falco successfully detected shell execution activity inside a running container.
+
+Detection Demonstrated
+
+* Shell spawned inside a container
+* Runtime process monitoring
+* Real-time security alert generation
+
+Security Impact
+
+This validated the effectiveness of runtime threat detection and demonstrated the ability to identify potentially suspicious activity occurring within containerized workloads.
+
+Screenshot
+
+⸻
+
+Kubernetes Deployment Validation
+
+The application was successfully deployed to Kubernetes using Minikube and validated using Kubernetes services, deployments, namespaces, and security controls.
+
+Implemented Controls
+
+* Namespace Isolation
+* Network Policies
+* RBAC
+* Kubernetes Secrets
+* Runtime Monitoring with Falco
+
+Screenshot
+
+⸻
+
+Overall Security Improvements
+
+The project successfully implemented security controls across multiple layers of the software development lifecycle:
+
+* Source Code Security (Semgrep)
+* Secret Detection (Gitleaks)
+* Dependency and Container Security (Trivy)
+* Dynamic Application Security Testing (OWASP ZAP)
+* Kubernetes Security Benchmarking (kube-bench)
+* Runtime Threat Detection (Falco)
+* Access Control (RBAC)
+* Network Segmentation (Network Policies)
+* Secure Configuration Management (Kubernetes Secrets)
+
+This layered approach demonstrates how DevSecOps practices can be integrated into modern cloud-native application deployments to improve overall security posture and reduce operational risk.
 ## Screenshots
 
 ## Lessons Learned
