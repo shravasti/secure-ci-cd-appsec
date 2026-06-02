@@ -378,7 +378,8 @@ Key Outcomes
 * Validation that sensitive information was not committed to source control
 * Improved repository security posture
 
-Screenshot
+<img width="871" height="440" alt="gitleaks" src="https://github.com/user-attachments/assets/c49a78ec-3fa8-4097-b9cb-b6ef31245355" />
+
 
 ⸻
 
@@ -398,7 +399,8 @@ Security Impact
 
 The assessment provided visibility into dependency and container image risks, enabling prioritization of remediation efforts and demonstrating the importance of vulnerability management within containerized environments.
 
-Screenshot
+<img width="959" height="503" alt="trivy-scan" src="https://github.com/user-attachments/assets/08a651d8-d3d3-44dd-acee-ffb4448185f2" />
+
 
 ⸻
 
@@ -411,8 +413,6 @@ Key Outcomes
 * Runtime application security assessment
 * Validation of deployed application security controls
 * Identification of potential web application security issues
-
-Screenshot
 
 ⸻
 
@@ -440,7 +440,8 @@ Security Impact
 
 The assessment helped improve the security posture of the Kubernetes environment through the implementation of multiple defense-in-depth controls.
 
-Screenshot
+<img width="959" height="502" alt="kube-bench-scan" src="https://github.com/user-attachments/assets/603e6fdf-2449-4727-9b72-e50ade764922" />
+
 
 ⸻
 
@@ -458,7 +459,8 @@ Security Impact
 
 This validated the effectiveness of runtime threat detection and demonstrated the ability to identify potentially suspicious activity occurring within containerized workloads.
 
-Screenshot
+<img width="957" height="506" alt="falco-shell-spawned" src="https://github.com/user-attachments/assets/3d961493-5228-450b-9971-0b92ad80946f" />
+
 
 ⸻
 
@@ -474,7 +476,9 @@ Implemented Controls
 * Kubernetes Secrets
 * Runtime Monitoring with Falco
 
-Screenshot
+<img width="959" height="503" alt="juice shop deployment" src="https://github.com/user-attachments/assets/1e6c0ecc-b86f-470b-91ad-2e70298de119" />
+
+<img width="959" height="503" alt="kube-pods-running" src="https://github.com/user-attachments/assets/9bc74330-2238-4e09-9724-19b0faa240ee" />
 
 ⸻
 
@@ -493,11 +497,180 @@ The project successfully implemented security controls across multiple layers of
 * Secure Configuration Management (Kubernetes Secrets)
 
 This layered approach demonstrates how DevSecOps practices can be integrated into modern cloud-native application deployments to improve overall security posture and reduce operational risk.
-## Screenshots
 
 ## Lessons Learned
 
+This project provided practical experience implementing security controls across the software development lifecycle and highlighted the importance of integrating security into every stage of application development and deployment.
+
+Security Must Be Integrated Early
+
+One of the most important lessons learned was the value of shifting security left. By integrating tools such as Semgrep, Gitleaks, and Trivy into the CI/CD pipeline, security checks were automated and performed before deployment, reducing the likelihood of vulnerabilities reaching production environments.
+
+Container Security Extends Beyond Image Creation
+
+Building a Docker image is only the first step in securing containerized applications. Vulnerability scanning using Trivy demonstrated that container images can inherit security risks from operating system packages and application dependencies. Continuous vulnerability assessment is therefore essential for maintaining secure container environments.
+
+Kubernetes Security Requires Multiple Layers
+
+Securing Kubernetes is not achieved through a single control. The project demonstrated the need for a defense-in-depth approach involving:
+
+* Namespace isolation
+* Network Policies
+* Role-Based Access Control (RBAC)
+* Kubernetes Secrets
+* Security benchmarking
+
+Each control addresses a different aspect of cluster security and collectively improves the overall security posture.
+
+Security Benchmarks Provide Valuable Guidance
+
+The kube-bench assessment highlighted several security recommendations based on the CIS Kubernetes Benchmark. While some findings were specific to the Minikube development environment, the assessment provided valuable insight into Kubernetes hardening practices and helped guide the implementation of security improvements.
+
+Runtime Security Complements Preventive Controls
+
+Security scanning alone is not sufficient. Falco demonstrated the importance of runtime monitoring by detecting shell execution activity within a running container. This showed how runtime security tools can identify suspicious behavior that static and vulnerability scanning tools may not detect.
+
+Practical Challenges Encountered
+
+During implementation, several challenges were encountered, including:
+
+* Kubernetes deployment configuration issues
+* Image pull and container startup errors
+* RBAC configuration troubleshooting
+* Secret injection validation
+* Falco deployment and alert verification
+* CI/CD pipeline debugging
+
+Resolving these issues provided hands-on experience with troubleshooting cloud-native environments and security tooling.
+
+Key Takeaway
+
+This project reinforced that effective DevSecOps is not a single tool or technology, but a combination of automated security testing, secure deployment practices, infrastructure hardening, and continuous monitoring. Security is most effective when it is integrated throughout the entire application lifecycle rather than treated as a separate activity performed after deployment.
+
 ## Future Enhancements
+
+While this project successfully implemented a secure DevSecOps pipeline with container security, Kubernetes hardening, and runtime monitoring, several enhancements could further improve the platform and align it more closely with production-grade cloud-native environments.
+
+Cloud Deployment Using Managed Kubernetes
+
+The current implementation uses Minikube for local Kubernetes deployment. A future enhancement would be deploying the application to a managed Kubernetes service such as:
+
+* Amazon EKS (Elastic Kubernetes Service)
+* Azure AKS (Azure Kubernetes Service)
+* Google Kubernetes Engine (GKE)
+
+This would provide experience with production-scale Kubernetes environments and cloud-native security controls.
+
+⸻
+
+Advanced Secrets Management
+
+The project currently uses Kubernetes Secrets for configuration management. Future implementations could integrate enterprise-grade secrets management solutions such as:
+
+* AWS Secrets Manager
+* HashiCorp Vault
+* Azure Key Vault
+* Google Secret Manager
+
+These solutions provide secret rotation, auditing, encryption, and centralized secret management capabilities.
+
+⸻
+
+Infrastructure as Code (IaC)
+
+Infrastructure provisioning could be automated using Infrastructure as Code tools such as:
+
+* Terraform
+* AWS CloudFormation
+
+This would enable reproducible, version-controlled infrastructure deployments and improve operational consistency.
+
+⸻
+
+Admission Controller Security Policies
+
+Additional Kubernetes security controls could be implemented using:
+
+* Kyverno
+* OPA Gatekeeper
+
+These tools can enforce security policies such as:
+
+* Preventing privileged containers
+* Restricting hostPath mounts
+* Enforcing resource limits
+* Validating securityContext settings
+
+⸻
+
+Continuous Runtime Security Monitoring
+
+Runtime security capabilities could be expanded by integrating:
+
+* Falco Sidekick
+* Prometheus
+* Grafana
+
+This would provide centralized alerting, monitoring dashboards, and improved visibility into cluster activity.
+
+⸻
+
+Software Supply Chain Security
+
+Future enhancements could strengthen software supply chain security through:
+
+* Image signing with Cosign
+* SBOM (Software Bill of Materials) generation
+* Sigstore integration
+* Image provenance verification
+
+These controls help ensure the integrity and authenticity of container images throughout the deployment pipeline.
+
+⸻
+
+Security Testing Expansion
+
+Additional security testing could be incorporated, including:
+
+* Dependency scanning automation
+* Container compliance validation
+* API security testing
+* Infrastructure security scanning
+* Continuous penetration testing workflows
+
+⸻
+
+Monitoring and Observability
+
+Operational visibility could be enhanced through:
+
+* Prometheus
+* Grafana
+* Loki
+* ELK Stack
+
+This would provide centralized logging, monitoring, performance metrics, and security event correlation.
+
+⸻
+
+Multi-Environment Deployment Strategy
+
+Future versions could support separate environments for:
+
+* Development
+* Testing
+* Staging
+* Production
+
+This would more closely reflect real-world enterprise deployment workflows and CI/CD practices.
+
+⸻
+
+Key Goal
+
+The long-term objective is to evolve the project from a secure local DevSecOps implementation into a production-ready cloud-native security platform incorporating managed Kubernetes, advanced policy enforcement, infrastructure automation, observability, and software supply chain security controls.
+
+
 ## Author
 
 Shravasti Borkar
